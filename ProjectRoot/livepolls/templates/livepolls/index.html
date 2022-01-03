@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>투표index</title>
+</head>
+<body>
+    <h2>라이브 투표하기</h2>
+    <!-- latest_question_list에 데이터게 있다면 갯수만큼 반복한다. -->
+    {% if latest_question_list %}
+        <ul>
+        {% for question in latest_question_list %}
+            <!-- 
+                id : 일련번호 컬럼(PK)
+                question_text : 투표의 질문 항목
+            -->
+            <li><a href="/livepolls/{{ question.id }}/">{{ question.question_text }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>등록된 항목이 없습니다.</p>
+    {% endif %}
+</body>
+</html>

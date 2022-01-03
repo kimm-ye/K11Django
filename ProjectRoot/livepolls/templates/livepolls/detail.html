@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>투표detail</title>
+</head>
+<body>
+    <!-- 투표의 질문을 문서의 제목으로 사용 -->
+    <h1>{{ question.question_text }} </h1>
+
+    <!-- 
+        에러가 있는 경우 메세지를 보여준다. vote() 뷰 함수의 try ~ except 부분에서
+        예외가 발생하면 error_message를 추가하여 렌더링 할 것이다.
+     -->
+    {% if error_message %}
+        <p><strong>{{ error_message }}</strong></p>
+    {% endif %}
+
+    <form action="{% url 'livepolls:vote' question.id %}" method="post">
+    <!-- 폼을 처리하는 경우 CSRF(Cross Site Request Forgery) 공격 방어 -->
+    {% csrf_token %}
+    <!-- View함수에서 넘겨준 객체를 통해 갯수만큼 반복하여 라디오버튼을 출력한다. -->
+    <!-- 
+        choice_set : Question과 Choice 테이블의 관계는 1:N의 관계이고,
+            외래키로 연결되어 있을때 자식테이블이 항목을 의미한다.
+     -->
+    {% for choice in question.choice_set.all %}
+        <!-- forloop.counter : 실제 반복횟수를 반환해주는 객체로 템플릿 문법에서
+            좀 더 자세히 다루도록 한다. -->
+        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+        <!-- input의 id속성과 label의 for속성값을 일치시켜 클릭의 범위를 확대한다. -->
+        <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label>
+    {% endfor %}
+    <input type="submit" value="Vote">
+    </form>
+</body>
+</html>

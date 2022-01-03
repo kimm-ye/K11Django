@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>투포결과results</title>
+</head>
+<body>
+    <h1>{{ question.question_text }}</h1>
+    <ul>
+    <!-- Question테이블과 외래키 관계가 있는 자식 테이블의 레코드를 가져와서 출력한다. -->
+    {% for choice in question.choice_set.all %}
+        <!-- 선택항목 -- 투표수(복수형 접미사에 의해 s가 붙을지 결정한다.) -->
+        <li>{{ choice.choice_text }} -- {{ choice.votes }}
+            vote{{ choice.votes|pluralize }}</li>
+    {% endfor %}
+    </ul>
+    <!-- reverse는 파이썬 문법이고, 밑에 문법은 reverse랑 동일하나 템플릿 문법이다. -->
+    <a href="{% url 'livepolls:detail' question.id %}">재투표 하시겠습니까?</a>
+    &nbsp;
+    <a href="/">Main 바로가기</a>
+</body>
+</html>
