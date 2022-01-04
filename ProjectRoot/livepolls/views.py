@@ -61,6 +61,8 @@ def vote(request, question_id):
                 : 별칭과 인수를 통해 URL을 만들기 위한 함수이다.
                 보통은 요청이 있을때 URL을 분석한 후 필요한 views를 호출하지만,
                 이 경우에는 별칭을 통해 거꾸로 URL을 만들기 때문에 reverse라는 이름이 붙었다.
+                
+                args=에서 ,가 빠지면 동작하지 않는다. reverse라 args다음에 별칭을 붙여야해서 그럴까?
         '''
 
 # 투표 결과 보기

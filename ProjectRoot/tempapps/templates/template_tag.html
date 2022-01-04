@@ -1,0 +1,123 @@
+<!-- static 디렉토리를 사용하기 위한 준비 -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>템플릿 태그</title>
+    <style>
+        body{font-size: 20px;}
+    </style>
+    <!-- static 디렉토리에 저장된 css파일을 링크 => /static/style2.css로 변환됨 -->
+    <link rel="stylesheet" type="text/css" href="{% static 'style2.css' %}">
+</head>
+<body>
+    <h2>static 사용하기</h2>
+
+    <h3>static 폴더 사용하기 - 출력됨</h3>
+    <!-- static 디렉토리는 설정을 변경할 수 있으므로 하드코딩보다는 static 태그를
+    사용하는 것이 보다 안전하다. -->
+    <img src="{% static 'apple.png' %}" alt="">
+    <img src="/static/mango.png" alt="">
+    <img src="/static/banana.png" alt="">
+
+    <!-- 정적(static) 파일은 항상 static 디렉토리를 사용해야 한다. 개발자가 임의로
+    디렉토리를 추가할 수 없다. -->
+    <h3>사용자 폴더 사용하기 - 출력되지 않음</h3>
+    <img src="/images/winter.png" alt="">
+
+    <h2>템플릿 태그</h2>
+    <h3>for 기본</h3>
+    <!-- books는 딕셔너리를 원소로 가진 리스트이므로 반복시 점(.)을
+    이용해서 각 key에 접근할 수 있다. -->
+    {% for b in books %}
+        <li>{{ b.name }} - {{ b.price }}</li>
+    {% endfor %}
+
+    <!-- 반복할 변수에 아무런 값이 없는 경우 empty태그를 통해 아래와 같이
+    출력할 수 있다. if문을 별도로 사용하지 않아도 되므로 편리하다. -->
+    <h3>for...empty</h3>
+    {% for h in hobbys %}
+        <li>{{ h.name }}</li>
+    {% empty %}
+        <li>내용없음</li>
+    {% endfor %}
+
+    <!-- 
+        counter : 실제 반복에서의 카운트를 반환.(1부터)
+        counter0 : 실제 반복에서의 카운트를 반환.(0부터)
+        revcounter : 루프 끝에서 몇번째인지 카운트(1부터)
+        revcounter0 : 루프 끝에서 몇번째인지 카운트(0부터)
+        first : 반복의 처음일때 true를 반환
+        last : 반복의 마지막일때 true를 반환
+        parentloop : 상위 루프를 의미하므로 단일 for문일때는 결과 없음.
+     -->
+    <h3>for에서 사용되는 변수</h3>
+    {% for b in books %}
+        <li>
+            {{ forloop.counter }} -
+            {{ forloop.counter0 }} -
+            {{ forloop.revcounter }} -
+            {{ forloop.revcounter0 }} -
+            {{ forloop.first }} -
+            {{ forloop.last }} -
+            {{ forloop.parentloop }} {# 아무것도 안나옴 #}
+        </li>
+    {% endfor %}
+
+    <h3>중첩된 for문</h3>
+    {% for f in favorites %}  <!-- 4회 반복 -->
+        {% for b in books %}  <!-- 3회 반복 -->
+        <li>
+            <!-- 부모인 favorites가 포함된 for문의 속성이 출력된다. -->
+            {{ forloop.parentloop }}
+        </li>
+        {% endfor %}
+    {% endfor %}
+
+
+    <h3>일반적인 for문 사용하기</h3>
+    <!-- range(1,11)로 선언한 변수이므로 1~10까지 반복 -->
+    {% for i in iVar %}
+        {{ i }} <br>
+    {% endfor %}
+    
+    <!-- 파이썬과 동일하게 2개 이상의 조건에서는 elif를 사용한다. -->
+    <h2>if문</h2>
+    {% if hobbys %}
+        hobbys의 갯수 : {{ hobbys|length }} <!-- hobbys의 길이 출력 -->
+    {% elif books %}
+        books의 갯수 : {{ books|length }}
+    {% else %}
+        모두 False임
+    {% endif %}
+    <br>
+    {% if num > 50 and num < 200 %}
+        num은 50보다 크다
+    {% else %}
+        num은 50보다 작다
+    {% endif %}
+    
+    <!-- 특정값을 변수에 저장한다. 단, with 블럭내에서만 사용할 수 있다. -->
+    <h2>with</h2>
+    {% with total=books|length %}
+        with블럭안 : {{ total }} <br>
+    {% endwith %}
+    <!-- 블럭을 벗어나면 소멸되어 출력되지 않는다. -->
+    with블럭밖 : {{ total }}
+
+    <!-- URLConf에 지정된 네임스페이스를 통해 확장성 있는 URL을 생성해준다.
+    특히 URL에 변수처리를 해야할 경우 유용하게 사용할 수 있다. -->
+    <h2>url</h2>
+    <li>url1 : {% url 'tempapps:my_filter' %}</li>
+    <li>url2 : {% url 'tempapps:my_tag' %}</li>
+    <li>url3 : {% url 'livepolls:detail' 10 %}</li>
+    <li>url4 : {% url 'livepolls:results' 20 %}</li>
+    <!-- 
+        url4는 아래와 같이 매칭되어 URL을 생성한다.
+        path('<int:question_id>/results/', views.results, name='results')
+     -->
+</body>
+</html>

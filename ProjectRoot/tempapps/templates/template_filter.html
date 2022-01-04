@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>템플릿 필터</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'style2.css' %}">
+</head>
+<body>
+    <h3 class="red">템플릿 필터 사용하기</h3>
+
+    <!-- 템플릿에서 변수를 출력할때에는 콧수염괄호(Mustache Tag)를 사용한다. -->
+    <h4 class="blue">변수 출력</h4>
+    숫자 : {{ num1 }}, {{ num2 }} <br>
+    한글 : {{ hanStr }} <br>
+    <!-- HTML태그는 기본적으로 사용할 수 없도록 특수기호로 변환된다 (즉, 비활성화시킴) -->
+    영어 : {{ engStr }} 
+
+    <!-- 컬렉션 변수를 출력할때는 반드시 닷(.)을 사용해야 한다. -->
+    <h4 class="green">변수에 도트(.) 사용</h4>
+    <!-- 딕셔너리는 키값으로 가져온다. -->
+    딕셔너리 : {{ dictVar.a }}, {{ dictVar.b }} <br>
+    리스트 : {{ listVar.0 }},  {{ listVar.2 }} <br>
+    {#{ listVar[1] } => 리스트를 이와같이 기술하면 에러발생됨 #}
+
+    <h4>lower : 소문자로 변경</h4>
+    {{ engStr|lower }}
+
+    <!-- \r\n을 줄바꿈 처리해주소, 문장을 출력할때 <p> 태그로 감싸준다. -->
+    <h4>escape 및 linebreaks : 특수문자 이스케이프 및 줄바꿈</h4>
+    <!--  escape : 특수문자 처리
+          linebreaks : 줄바꿈처리 페이지 소스보면 해당 부분 p태그로 감싸짐 -->
+    {{ engStr|escape|linebreaks }}
+
+    <!-- 인자로 주어진 3이 적용되어 세개의 단어까지만 잘라서 출력 -->
+    <h4>truncatewords : 단어 단위로 자르기</h4>
+    {{ hanStr|truncatewords:3 }} <br>
+    {{ engStr|truncatewords:3 }}
+
+    <!-- 인자로 주어진 4미만까지 적용되어 세개의 문자만 잘라서 출력 -->
+    <h4>truncatechars : 문자 단위로 자르기</h4>
+    {{ hanStr|truncatechars:4 }} <br>
+    {{ engStr|truncatechars:4 }}
+
+    <!-- 변수에 값이 없을때 디폴트값을 지정하여 출력한다. -->
+    <h4>default : 디폴트값 지정</h4>
+    {{ noStr|default:"값없음" }}
+
+    <h4>length : 문자열의 길이</h4>
+    {{ engStr|length }}
+
+    <h4>striptags : HTML태그를 모두 제거</h4>
+    {{ engStr|striptags }}
+
+    <h4>복수형 접미사 : pluralize</h4>
+    1일때 : {{ num1|pluralize }} <br> {# 단수이므로 아무것도 안나옴 #}
+    10일때(기본): {{ num2|pluralize }} <br> {# 2이상(복수)일때는 s가 출력 #}
+    10일때(커스텀): {{ num2|pluralize:"sss" }} {# sss 출력됨 #}
+
+    <h4>add : 덧셈결과</h4>
+    {{ num1|add:"2" }} <br>
+    {{ num2|add:"2" }} <br>
+    {{ engStr|add:"2" }}  {# 문자열인 경우 숫자와 연결되어 출력 #}
+
+    <!-- 장고 프레임워크는 기본적으로 HTMl태그는 실행되지 않도록 처리된다.
+    문자열 사이에 <script>와 같은 태그를 통해 해킹의 우려가 있으므로
+    원천적으로 차단하기 위함이다. 특별한 경우 HTML태그를 사용해야 할때 
+    아래와 같이 autoescape를 사용한다. -->
+    <h4>HTML 태그 랜더링하기</h4>
+    {% autoescape off %}
+    {{ engStr }}
+    {% endautoescape %}
+
+
+</body>
+</html>
