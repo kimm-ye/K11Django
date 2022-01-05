@@ -39,8 +39,9 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 형식] 앱의이름.apps.설정클래스명
 설정클래스명은 해당 파일 들어가면 볼수있다.
 
-앱1 : 설문관리앱
+앱1 : 설문관리 앱
 앱2 : 템플릿 문법 앱
+앱3 : 도서관리 앱
 '''
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -51,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'livepolls.apps.LivepollsConfig',
     'tempapps.apps.TempappsConfig',
+    'books.apps.BooksConfig',
 ]
 
 MIDDLEWARE = [

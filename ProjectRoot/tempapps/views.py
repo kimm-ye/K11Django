@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from tempapps.forms import QuestionForm
+from tempapps.forms import WriteForm
 
 # tempapps의 index 화면 : 바로가기 링크만 있음
 def index(request):
@@ -70,3 +71,16 @@ def formCreate(request):
 
 def thanks(request):
     return render(request, 'thanks.html')
+
+
+
+def boardWrite(request):
+    # template_path =''
+    if request.method == 'POST':
+        template_path = 'boardWrite.html'
+    else:
+        form = WriteForm()
+        template_path = 'boardWrite.html'
+        
+    # 입력폼 진입을 위한 템플릿을 렌더링한다.
+    return render(request, template_path, {'form':form})

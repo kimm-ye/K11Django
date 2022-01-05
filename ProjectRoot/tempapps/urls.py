@@ -8,4 +8,5 @@ urlpatterns = [
     path('template.tag/', views.templateTag, name="my_tag"), # 템플릿 태그
     path('form.create/', views.formCreate, name='formCreate'), # 폼 사용하기
     path('thanks/', views.thanks),
+    path('boardWrite/', views.boardWrite),
 ]

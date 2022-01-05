@@ -1,0 +1,24 @@
+{% extends 'base_books.html' %}
+<!-- 
+
+ -->
+{% block content %}
+    <h2>{{ object.title }}</h2>
+    <ul>
+        <li>
+            Authors : 
+            <!-- 저자의 경우 공저의 개념이 있어 하나의 책을 두명이상의
+            저자가 공동집필하는 경우가 있다. 따라서 아래는 object에 연결된
+            authors 모두를 가져와서 출력하겠다는 의미이다. -->
+            {% for author in object.authors.all %} <!-- object에 authors로 저장된 모든것을 가지고 오란 뜻 -->
+                {{ author }}
+                <!-- last : 마지막이 아닌 경우에 ','를 출력한다는 의미 -->
+                <!-- 저자를 출력할때 마지막이 아닌 경우에만 콤마를 출력한다.
+                즉 마지막에는 콤마를 출력하지 않는다. -->
+                {% if not forloop.last %}, {% else %}{% endif %}
+            {% endfor %}
+        </li>
+        <li>Publisher : {{ object.publisher }}</li>
+        <li>Publication date : {{ object.publication_date }}</li>
+    </ul>
+{% endblock content %}

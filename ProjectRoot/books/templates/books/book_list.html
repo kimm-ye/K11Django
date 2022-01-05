@@ -1,0 +1,21 @@
+{% extends 'base_books.html' %}
+
+{% block content %}
+    <h2>Book List</h2>
+    <ul>
+    <!-- View에 전달해준 context변수가 object_list이므로 이를 통해 반복 출력 -->
+    {% for book in object_list %}
+        <li>
+            <!-- 
+                url 태그를 통해 'books:book_detail'로 지정된 URL패턴을 찾아 URL을 생성한다.
+                즉, path('book/<int:pk>/', views.BookDetail.as_view(), name="book_detail"),
+                이 부분을 찾게 된다.
+                book.id는 Book 테이블의 일련번호로 PK로 지정되어 있는 컬럼이다.
+                
+                PK는 자동부여된다.
+            -->
+            <a href="{% url 'books:book_detail' book.id %}">{{ book.title }}</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock content %}

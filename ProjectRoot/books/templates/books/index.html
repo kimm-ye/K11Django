@@ -1,0 +1,31 @@
+<!-- base_books.html 템플릿 파일을 상속 -->
+{% extends 'base_books.html' %}
+
+<!-- block 태그를 통해 content 생성 -->
+{% block content %}
+    <h2>Books Management System</h2>
+    <ul>
+    <!-- 
+        Views.py에서 생성한
+        context['model_list'] = ['Book', 'Author','Publisher']
+        를 대상으로 반복 출력한다.
+    -->
+    {% for modelname in model_list %}
+        <!-- 
+            add(문자열연결), lower(소문자로변경) 템플릿 필터를 사용해서 문자열을 생성한다.
+            만약 Book라는 문자열이 주어지면 book_list라는 문자열로 변경한다.
+            즉, URLConf에서 "books:book_list"라는 별칭을 찾아 URL을 생성한다.
+
+            with : 특정값을 변수에 저장한다. 단, with 블럭내에서만 사용할 수 있다. 
+            지역변수와 비슷...
+        -->
+        {% with "books:"|add:modelname|lower|add:"_list" as urlvar %}
+        <!-- with 블럭내에서만 사용할 수 있는 변수를 생성한다. -->
+        <li>
+            <!-- href="/books/book/"과 같은 형태의 링크가 생성된다. -->
+            <a href="{% url urlvar %}">{{ modelname }}</a>
+        </li>
+        {% endwith %}
+    {% endfor %}
+    </ul>
+{% endblock content %}
