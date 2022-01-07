@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시판 목록</title>
+    <style>
+    #paging li{display: inline;}
+    </style>
+</head>
+<body>
+    <h1>게시판 목록</h1>
+    <table border="1">
+        <tr>
+            <th>제목</th>
+            <th>내용</th>
+        </tr>
+    <!-- Post테이블에 등록된 게시물의 갯수만큼 반복 출력 -->
+    {% for list in postlist %}
+        <tr>
+            <td><a href="/board/view/{{list.pk}}">{{ list.titles }}</a></td>
+            <td>{{ list.contents }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+    <a href="/board/write/">글쓰기</a>
+    <ul id="paging">
+        <!-- 이전페이지 -->
+        <!-- 
+            has_previous : 이전 페이지가 있는지 확인
+            previous_page_number : 이전 페이지 번호를 링크에 적용
+         -->
+        {% if postlist.has_previous %}
+        <li>
+            <a href="?page={{ postlist.previous_page_number }}">이전</a>
+        </li>
+        {% else %}
+        <li>
+            <a href="#">이전</a>
+        </li>
+        {% endif %}
+        <!-- 페이지리스트  -->
+        <!-- 
+            page_range : 페이지 범위만큼 반복하여 페이지 번호를 출력한다.
+            number : 현재 페이지 번호
+            |add:-5 또는 |add:5 => 현재 페이지를 기준으로 이전 5페이지, 이후 5페이지를 출력한다.
+         -->
+        {% for page_number in postlist.paginator.page_range %}
+            {% if page_number >= postlist.number|add:-5 and page_number <= postlist.number|add:5 %}
+                {% if page_number == postlist.number %}
+                <li>
+                    <a href="?page={{ page_number }}">{{ page_number }}</a>
+                </li>
+                {% else %}
+                <li>
+                    <a href="?page={{ page_number }}">{{ page_number }}</a>
+                </li>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        <!-- 다음페이지 -->
+        <!-- 
+            has_next : 다음 페이지가 있는지 확인
+            next_page_number : 다음 페이지 번호를 링크에 적용
+         -->
+        {% if postlist.has_next %}
+        <li>
+            <a href="?page={{ postlist.next_page_number }}">다음</a>
+        </li>
+        {% else %}
+        <li>
+            <a href="#">다음</a>
+        </li>
+        {% endif %}
+    </ul>
+</body>
+</html>

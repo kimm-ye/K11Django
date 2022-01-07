@@ -33,7 +33,7 @@ class QuestionForm(forms.Form):
     '''
     form3 = forms.CharField(
         widget=forms.PasswordInput(attrs={'size':'30'})
-        )
+    )
     
     # <textarea name="form4" cols="40" rows="10" required id="id_form4">
     form4 = forms.CharField(widget=forms.Textarea)

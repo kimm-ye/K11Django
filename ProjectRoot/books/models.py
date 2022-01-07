@@ -6,7 +6,7 @@ class Book(models.Model):
     title = models.CharField(max_length=100)
     # 저자이름 : Author 테이블의 PK와 N:N의 관계를 설정. 저자는 여러권의 책을 쓸 수 있다.
     authors = models.ManyToManyField('Author')
-    # 출판사 : Publisher 테으빌의 PK와 1:N의 관계를 설정. 책은 한 출판사에서만 출간된다.
+    # 출판사 : Publisher 테이블의 PK와 1:N의 관계를 설정. 책은 한 출판사에서만 출간된다.
     # models.CASCADE 옵션은 오라클과 동일하게 부모레코드가 삭제될때 자식까지 같이 삭제된다.
     publisher = models.ForeignKey('Publisher', on_delete=models.CASCADE)
     # 출판일

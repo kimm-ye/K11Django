@@ -32,7 +32,7 @@ class BooksModelView(TemplateView):  # 해당 클래스는 TemplateView를 상�
     둘째 템플릿 파일명은 "모델명소문자_list.html"로 지정된다.
     
     원래는 변수를 담아서 context로 넘겼어야 하는데 context={}하고 render (,context)
-    여기서는 하지 않았따. 그걸 ListView가 알아서 자동으로 해주기 때문이다.
+    여기서는 하지 않았다. 그걸 ListView가 알아서 자동으로 해주기 때문이다.
 '''
 class BookList(ListView):
     # 1. Book 테이블로부터 모든 레코드를 가져와서 컨텍스트 변수 object_list에 저장한다.

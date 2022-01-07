@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>view</title>
+    <script>
+        function postDelete(pk){
+            if(confirm('삭제하시겠습니까?')) {
+                location.href='../delete/'+pk;
+            }
+        }
+    </script>
+</head>
+<body>
+   <h1>내용보기</h1> 
+   <h4>{{ post.titles }}</h4>
+   <p>
+       {{ post.contents|linebreaks }}
+   </p>
+    {% if post.mainphoto %}
+        <!-- 
+            max-height : 최대 높이를 지정한다.
+            max-width : 최대 가로크기를 지정한다.
+
+            post.mainphoto.url : 이미지 저장된 경로인 media를 자동으로 추가한
+                경로명을 문자열로 반환한다.
+        -->
+        <img src="{{ post.mainphoto.url }}" style="max-height: 300px;" > <br>
+    {% endif %}
+    <div>
+        <a href="../edit/{{ post.pk }}">글수정하기</button>
+        <a href="javascript:postDelete({{ post.pk }});">글삭제하기</button>
+        <a href="../list/">목록바로가기</button>
+
+    </div>
+</body>
+</html>
